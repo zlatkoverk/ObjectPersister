@@ -1,8 +1,8 @@
 namespace ObjectPersister
 {
-    public class Property
+    public abstract class Property
     {
-        public string Name { get; set; }
-        public PropertyType Type { get; set; }
+        public PropertyDefinition Definition { get; set; }
+        public dynamic Value { get; set; }
     }
 }

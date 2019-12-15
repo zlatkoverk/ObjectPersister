@@ -2,7 +2,7 @@ namespace ObjectPersister
 {
     public enum PropertyType
     {
-        Text,
+        String,
         Enum,
         Integer
     }
