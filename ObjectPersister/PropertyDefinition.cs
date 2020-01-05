@@ -14,6 +14,7 @@ namespace ObjectPersister
 
         public PropertyDefinition(string name)
         {
+            Id = Guid.NewGuid();
             Name = name;
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ObjectPersister
 {
@@ -41,6 +42,41 @@ namespace ObjectPersister
             ObjectDefinitions[objectName] = def;
 
             return def;
+        }
+
+        public void CreateObject(string objectName, Dictionary<string, string> properties)
+        {
+            if (!ObjectDefinitions.ContainsKey(objectName))
+            {
+                throw new ArgumentException($"Object with name '{objectName}' does not exist");
+            }
+
+            var objectDefinition = ObjectDefinitions[objectName];
+
+            var obj = new Object(objectDefinition);
+            foreach (var property in properties)
+            {
+                if (!obj.SetProperty(property.Key, property.Value))
+                    throw new ArgumentException($"Setting of property {property.Key} was not successful");
+            }
+
+            Objects.Add(obj);
+        }
+
+        public void DumpObjects()
+        {
+            foreach (var group in Objects.GroupBy(o => o.Definition))
+            {
+                Console.WriteLine($"{group.Key.Name}:");
+                foreach (var obj in group)
+                {
+                    Console.WriteLine($"      {obj.Id}");
+                    foreach (var objProperty in obj.Properties)
+                    {
+                        Console.WriteLine($"           {objProperty.Definition.Name}:{objProperty.Value}");
+                    }
+                }
+            }
         }
     }
 }
