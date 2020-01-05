@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectPersister", "ObjectPersister\ObjectPersister.csproj", "{C9B8BEB5-BA0C-429A-8450-25115DFF9969}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectPersisterConsole", "ObjectPersisterConsole\ObjectPersisterConsole.csproj", "{A9E1C035-7DE5-4268-862F-3B2F6FB02422}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{C9B8BEB5-BA0C-429A-8450-25115DFF9969}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9B8BEB5-BA0C-429A-8450-25115DFF9969}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9B8BEB5-BA0C-429A-8450-25115DFF9969}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E1C035-7DE5-4268-862F-3B2F6FB02422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E1C035-7DE5-4268-862F-3B2F6FB02422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E1C035-7DE5-4268-862F-3B2F6FB02422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E1C035-7DE5-4268-862F-3B2F6FB02422}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
