@@ -13,5 +13,9 @@ namespace ObjectPersister
             Id = Guid.NewGuid();
             Definition = definition;
         }
+
+        public Property()
+        {
+        }
     }
 }

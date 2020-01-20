@@ -1,15 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using ObjectPersister;
 
 namespace ObjectPersisterConsole
 {
     class Program
     {
         private static ObjectPersister.ObjectPersister _objectPersister = new ObjectPersister.ObjectPersister();
+        private static ObjectPersisterDbContext db;
+
+        static Program()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ObjectPersisterDbContext>();
+            optionsBuilder.UseSqlite("Data Source=database.db");
+            db = new ObjectPersisterDbContext(optionsBuilder.Options);
+            db.Database.EnsureCreated();
+
+            _objectPersister.ObjectDefinitions = db.ObjectDefinitions
+                .Include(od => od.Properties)
+                .Include(od => od.Objects).ThenInclude(o => o.Properties).ThenInclude(p => p.Definition)
+                .ToDictionary(od => od.Name);
+            _objectPersister.Objects = _objectPersister.ObjectDefinitions.Values.SelectMany(od => od.Objects).ToList();
+        }
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to in-memory object persister");
+            Console.WriteLine("Welcome to object persister");
 
             while (true)
             {
@@ -31,6 +49,7 @@ namespace ObjectPersisterConsole
                         break;
                     case "4":
                         Console.WriteLine("Goodbye");
+                        db.SaveChanges();
                         return;
                     default:
                         Console.WriteLine("Invalid input");
@@ -75,7 +94,9 @@ namespace ObjectPersisterConsole
 
             try
             {
-                _objectPersister.DefineObject(name, properties, constraints);
+                var objDef = _objectPersister.DefineObject(name, properties, constraints);
+                db.Add(objDef);
+                db.SaveChanges();
             }
             catch (Exception e)
             {
@@ -118,7 +139,16 @@ namespace ObjectPersisterConsole
                 properties[propertyDefinition.Name] = value;
             }
 
-            _objectPersister.CreateObject(name, properties);
+            try
+            {
+                var obj = _objectPersister.CreateObject(name, properties);
+                db.Add(obj);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+            }
         }
     }
 }

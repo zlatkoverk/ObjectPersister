@@ -6,10 +6,10 @@ namespace ObjectPersister
 {
     public class ObjectPersister
     {
-        public Dictionary<string, ObjectDefinition> ObjectDefinitions { get; } =
+        public Dictionary<string, ObjectDefinition> ObjectDefinitions { get; set; } =
             new Dictionary<string, ObjectDefinition>();
 
-        public List<Object> Objects { get; } = new List<Object>();
+        public List<Object> Objects { get; set; } = new List<Object>();
 
         public ObjectDefinition DefineObject(string objectName, Dictionary<string, string> properties,
             Dictionary<string, List<string>> constraints)
@@ -38,7 +38,7 @@ namespace ObjectPersister
                         break;
                     case "enum":
                         propDef.Type = PropertyType.Enum;
-                        propDef.LegalValues = new List<string>(constraints[property.Key]);
+                        propDef.LegalValues = constraints[property.Key].ToArray();
                         break;
                     default:
                         throw new NotSupportedException($"Property type '{property.Value}' is not supported");
@@ -52,7 +52,7 @@ namespace ObjectPersister
             return def;
         }
 
-        public void CreateObject(string objectName, Dictionary<string, string> properties)
+        public Object CreateObject(string objectName, Dictionary<string, string> properties)
         {
             if (!ObjectDefinitions.ContainsKey(objectName))
             {
@@ -69,6 +69,7 @@ namespace ObjectPersister
             }
 
             Objects.Add(obj);
+            return obj;
         }
 
         public void DumpObjects()

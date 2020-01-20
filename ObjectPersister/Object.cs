@@ -21,6 +21,10 @@ namespace ObjectPersister
             }
         }
 
+        public Object()
+        {
+        }
+
         public bool SetProperty(string name, string value)
         {
             var property = Properties.Find(p => p.Definition.Name == name);

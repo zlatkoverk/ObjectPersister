@@ -13,5 +13,9 @@ namespace ObjectPersister
         {
             Name = name;
         }
+
+        public ObjectDefinition()
+        {
+        }
     }
 }

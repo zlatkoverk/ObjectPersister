@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ObjectPersister
 {
@@ -10,13 +11,17 @@ namespace ObjectPersister
         public string Name { get; set; }
         public PropertyType Type { get; set; }
         public bool Nullable { get; set; } = false;
-        public List<String> LegalValues { get; set; }
+        public string[] LegalValues { get; set; }
 
         public PropertyDefinition(string name, ObjectDefinition def)
         {
             Id = Guid.NewGuid();
             Name = name;
             ObjectDefinition = def;
+        }
+
+        public PropertyDefinition()
+        {
         }
 
         public bool IsLegal(string value)
@@ -29,7 +34,7 @@ namespace ObjectPersister
             switch (Type)
             {
                 case PropertyType.Enum:
-                    return LegalValues.Contains(value);
+                    return LegalValues.ToList().Contains(value);
                 //TODO: Integer range, string length
                 default:
                     return true;
