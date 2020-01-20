@@ -61,7 +61,7 @@ namespace ObjectPersisterConsole
                 properties[pName] = pType;
                 constraints[pName] = new List<string>();
                 //TODO: Move to ObjectPersister
-                if (pType == "enum")
+                if (pType == "enum" || pType == "?enum")
                 {
                     Console.WriteLine("Define number of enum values");
                     int n = int.Parse(Console.ReadLine());
@@ -107,8 +107,14 @@ namespace ObjectPersisterConsole
             var properties = new Dictionary<string, string>();
             foreach (var propertyDefinition in _objectPersister.ObjectDefinitions[name].Properties)
             {
-                Console.WriteLine("Input value for '" + propertyDefinition.Name + "' of type " + propertyDefinition.Type);
+                Console.WriteLine(
+                    "Input value for '" + propertyDefinition.Name + "' of type " + propertyDefinition.Type);
                 var value = Console.ReadLine();
+                if (value == "")
+                {
+                    value = null;
+                }
+
                 properties[propertyDefinition.Name] = value;
             }
 

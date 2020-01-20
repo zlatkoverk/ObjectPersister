@@ -12,17 +12,18 @@ namespace ObjectPersister
         public bool Nullable { get; set; } = false;
         public List<String> LegalValues { get; set; }
 
-        public PropertyDefinition(string name)
+        public PropertyDefinition(string name, ObjectDefinition def)
         {
             Id = Guid.NewGuid();
             Name = name;
+            ObjectDefinition = def;
         }
 
         public bool IsLegal(string value)
         {
-            if (value == null && !Nullable)
+            if (value == null)
             {
-                return false;
+                return Nullable;
             }
 
             switch (Type)

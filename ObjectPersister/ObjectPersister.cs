@@ -23,9 +23,12 @@ namespace ObjectPersister
 
             foreach (KeyValuePair<string, string> property in properties)
             {
-                var propDef = new PropertyDefinition(property.Key);
+                var propDef = new PropertyDefinition(property.Key, def);
 
-                switch (property.Value)
+                propDef.Nullable = property.Value.StartsWith("?");
+                var propertyType = propDef.Nullable ? property.Value.Substring(1) : property.Value;
+
+                switch (propertyType)
                 {
                     case "integer":
                         propDef.Type = PropertyType.Integer;
