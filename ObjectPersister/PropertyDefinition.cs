@@ -10,12 +10,29 @@ namespace ObjectPersister
         public string Name { get; set; }
         public PropertyType Type { get; set; }
         public bool Nullable { get; set; } = false;
-        public List<Enum> LegalValues { get; set; }
+        public List<String> LegalValues { get; set; }
 
         public PropertyDefinition(string name)
         {
             Id = Guid.NewGuid();
             Name = name;
+        }
+
+        public bool IsLegal(string value)
+        {
+            if (value == null && !Nullable)
+            {
+                return false;
+            }
+
+            switch (Type)
+            {
+                case PropertyType.Enum:
+                    return LegalValues.Contains(value);
+                //TODO: Integer range, string length
+                default:
+                    return true;
+            }
         }
     }
 }

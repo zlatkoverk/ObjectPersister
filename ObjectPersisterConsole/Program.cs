@@ -51,18 +51,31 @@ namespace ObjectPersisterConsole
             }
 
             var properties = new Dictionary<string, string>();
+            var constraints = new Dictionary<string, List<string>>();
             while (properties.Count != propertyCount)
             {
                 Console.WriteLine("Define property name");
                 var pName = Console.ReadLine();
-                Console.WriteLine("Define property type (integer or string)");
+                Console.WriteLine("Define property type (integer, string or enum)");
                 var pType = Console.ReadLine();
                 properties[pName] = pType;
+                constraints[pName] = new List<string>();
+                //TODO: Move to ObjectPersister
+                if (pType == "enum")
+                {
+                    Console.WriteLine("Define number of enum values");
+                    int n = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Define enum values");
+                    for (int i = 0; i < n; i++)
+                    {
+                        constraints[pName].Add(Console.ReadLine());
+                    }
+                }
             }
 
             try
             {
-                _objectPersister.DefineObject(name, properties);
+                _objectPersister.DefineObject(name, properties, constraints);
             }
             catch (Exception e)
             {
@@ -94,7 +107,7 @@ namespace ObjectPersisterConsole
             var properties = new Dictionary<string, string>();
             foreach (var propertyDefinition in _objectPersister.ObjectDefinitions[name].Properties)
             {
-                Console.WriteLine("Input value for " + propertyDefinition.Name + " of type " + propertyDefinition.Type);
+                Console.WriteLine("Input value for '" + propertyDefinition.Name + "' of type " + propertyDefinition.Type);
                 var value = Console.ReadLine();
                 properties[propertyDefinition.Name] = value;
             }

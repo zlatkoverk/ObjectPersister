@@ -11,7 +11,8 @@ namespace ObjectPersister
 
         public List<Object> Objects { get; } = new List<Object>();
 
-        public ObjectDefinition DefineObject(string objectName, Dictionary<string, string> properties)
+        public ObjectDefinition DefineObject(string objectName, Dictionary<string, string> properties,
+            Dictionary<string, List<string>> constraints)
         {
             if (ObjectDefinitions.ContainsKey(objectName))
             {
@@ -31,6 +32,10 @@ namespace ObjectPersister
                         break;
                     case "string":
                         propDef.Type = PropertyType.String;
+                        break;
+                    case "enum":
+                        propDef.Type = PropertyType.Enum;
+                        propDef.LegalValues = new List<string>(constraints[property.Key]);
                         break;
                     default:
                         throw new NotSupportedException($"Property type '{property.Value}' is not supported");
